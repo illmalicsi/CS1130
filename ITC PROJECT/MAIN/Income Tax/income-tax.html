@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Income Tax Calculator</title>
+    <style>
+      body {
+        font-family: "Courier New", Courier, monospace;
+        color: black;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e6e6fa;
+      }
+
+      h1 {
+        text-align: center;
+        color: black;
+        font-size: 45px;
+      }
+
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: none;
+        color: black;
+        padding: 10px 15px;
+        border: 1px solid black;
+        cursor: pointer;
+        margin-top: 10px;
+        border-radius: 4px;
+      }
+
+      button:hover {
+        background-color: violet;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #8f9779;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .home {
+        position: absolute;
+        top: 45px;
+        left: 8%;
+        transform: translateX(-50%);
+        text-decoration: none;
+        padding: 10px 20px;
+        background-color: none;
+        color: black;
+        border: 1px solid black;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .home:hover {
+        background-color: #8f9779;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <h1>Income Tax Calculator</h1>
+
+      <label for="employeeName">Employee Name:</label>
+      <input type="text" id="employeeName" />
+
+      <label for="daysWorked">Days Worked:</label>
+      <input type="number" id="daysWorked" />
+
+      <label for="dailyRate">Daily Rate:</label>
+      <input type="number" id="dailyRate" />
+
+      <label for="deductionAmount">Deduction Amount:</label>
+      <input type="number" id="deductionAmount" />
+
+      <button onclick="addEmployee()">Add Employee</button>
+
+      <label for="deleteLineNumber">Delete Employee (Enter Line Number):</label>
+      <input type="number" id="deleteLineNumber" />
+
+      <button onclick="deleteEmployee()">Delete Employee</button>
+      <button onclick="eraseData()">Erase Data</button>
+      <button onclick="deleteTableContent()">Delete Table</button>
+
+      <table id="payrollTable">
+        <tr>
+          <th>No.</th>
+          <th>Employee Name</th>
+          <th>Days Worked</th>
+          <th>Daily Rate</th>
+          <th>Gross Pay</th>
+          <th>Deduction Amount</th>
+          <th>Net Pay</th>
+        </tr>
+      </table>
+    </div>
+
+    <a href="../index.html" class="home">Back to Home Page</a>
+
+    <script>
+      let payrollList = [];
+
+      function addEmployee() {
+        let employeeName = document.getElementById("employeeName").value;
+        let daysWorked = parseFloat(
+          document.getElementById("daysWorked").value
+        );
+        let dailyRate = parseFloat(document.getElementById("dailyRate").value);
+        let deductionAmount = parseFloat(
+          document.getElementById("deductionAmount").value
+        );
+
+        let grossPay = daysWorked * dailyRate;
+        let netPay = grossPay - deductionAmount;
+
+        let employee = {
+          name: employeeName,
+          daysWorked: daysWorked,
+          dailyRate: dailyRate,
+          grossPay: grossPay,
+          deductionAmount: deductionAmount,
+          netPay: netPay,
+        };
+
+        payrollList.push(employee);
+        displayPayrollTable();
+        clearInputFeilds();
+      }
+
+      function deleteEmployee() {
+        let deleteLineNumber = parseInt(
+          document.getElementById("deleteLineNumber").value
+        );
+
+        if (deleteLineNumber >= 1 && deleteLineNumber <= payrollList.length) {
+          payrollList.splice(deleteLineNumber - 1, 1);
+          displayPayrollTable();
+        } else {
+          alert("Invalid line number. Please enter a valid line number.");
+        }
+      }
+
+      function eraseData() {
+        clearInputFields();
+        displayPayrollTable();
+      }
+
+      function deleteTableContent() {
+        let table = document.getElementById("payrollTable");
+        let rowCount = table.rows.length;
+
+        for (let i = rowCount - 1; i > 0; i--) {
+          table.deleteRow(i);
+        }
+      }
+
+      function displayPayrollTable() {
+        let table = document.getElementById("payrollTable");
+        table.innerHTML =
+          "<tr><th>No.</th><th>Employee Name</th><th>Days Worked</th><th>Daily Rate</th><th>Gross Pay</th><th>Deduction Amount</th><th>Net Pay</th></tr>";
+
+        for (let i = 0; i < payrollList.length; i++) {
+          let employee = payrollList[i];
+          let row = table.insertRow(-1);
+          let cellNo = row.insertCell(0);
+          let cellName = row.insertCell(1);
+          let cellDaysWorked = row.insertCell(2);
+          let cellDailyRate = row.insertCell(3);
+          let cellGrossPay = row.insertCell(4);
+          let cellDeductionAmount = row.insertCell(5);
+          let cellNetPay = row.insertCell(6);
+
+          cellNo.innerHTML = i + 1;
+          cellName.innerHTML = employee.name;
+          cellDaysWorked.innerHTML = employee.daysWorked;
+          cellDailyRate.innerHTML = employee.dailyRate;
+          cellGrossPay.innerHTML = employee.grossPay;
+          cellDeductionAmount.innerHTML = employee.deductionAmount;
+          cellNetPay.innerHTML = employee.netPay;
+        }
+      }
+
+      function clearInputFields() {
+        document.getElementById("employeeName").value = "";
+        document.getElementById("daysWorked").value = "";
+        document.getElementById("dailyRate").value = "";
+        document.getElementById("deductionAmount").value = "";
+        document.getElementById("deleteLineNumber").value = "";
+      }
+    </script>
+  </body>
+</html>
