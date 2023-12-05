@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Income Tax Calculator</title>
+  <style>
+    * {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #calculator {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #008080;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+
+    button {
+      color: #fff;
+      background-color: #008080;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #004c4c;
+    }
+
+    #result {
+      margin-top: 15px;
+      color: #008080;
+      font-size: 18px;
+    }
+  </style>
+  <script>
+    function calculateTax() {
+      var income = parseFloat(document.getElementById("income").value);
+      var tax = 0;
+
+      if (income <= 250000) {
+        tax = 0;
+      } else if (income <= 400000) {
+        tax = 0 + 0.20 * (income - 250000);
+      } else if (income <= 800000) {
+        tax = 30000 + 0.25 * (income - 400000);
+      } else if (income <= 2000000) {
+        tax = 130000 + 0.30 * (income - 800000);
+      } else if (income <= 8000000) {
+        tax = 490000 + 0.32 * (income - 2000000);
+      } else {
+        tax = 2410000 + 0.35 * (income - 8000000);
+      }
+
+      document.getElementById("result").innerText = "Income Tax: " + tax.toFixed(2);
+    }
+  </script>
+</head>
+<body>
+  <div id="calculator">
+    <h2>Income Tax Calculator</h2>
+    <form id="taxForm">
+      <label for="income">Enter Taxable Income:</label>
+      <input type="number" id="income" name="income" required />
+      <button type="button" onclick="calculateTax()">Calculate Tax</button>
+    </form>
+    <div id="result"></div>
+  </div>
+</body>
+</html>
