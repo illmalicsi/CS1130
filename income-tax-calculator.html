@@ -66,6 +66,25 @@
       color: #800080;
       font-size: 18px;
     }
+
+    .home {
+        position: absolute;
+        top: 45px;
+        left: 8%;
+        transform: translateX(-50%);
+        text-decoration: none;
+        padding: 10px 20px;
+        background-color: none;
+        color: black;
+        border: 1px solid black;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .home:hover {
+        background-color: #8f9779;
+      }
   </style>
   <script>
     function calculateTax() {
@@ -100,5 +119,6 @@
     </form>
     <div id="result"></div>
   </div>
+   <a href="./index.html" class="home">Back to Home Page</a>
 </body>
 </html>
